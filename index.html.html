@@ -5,92 +5,79 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CashReward App</title>
     
-    <!-- Ad SDK -->
+    <!-- Your New Ad Code -->
     <script src='//libtl.com/sdk.js' data-zone='9924924' data-sdk='show_9924924'></script>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #1f2937; -webkit-tap-highlight-color: transparent; }
-        .card-bg { background-color: #f9fafb; border: 1px solid #f3f4f6; border-radius: 1.25rem; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
-        .btn-accent { background: linear-gradient(135deg, #ff8c00, #ff5e00); color: white; font-weight: 700; border-radius: 1rem; transition: transform 0.2s; }
-        .btn-accent:active { transform: scale(0.96); }
+        body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #1f2937; }
+        .card-bg { background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 1.2rem; }
+        .btn-accent { background: linear-gradient(135deg, #ff8c00, #ff5e00); color: white; font-weight: 700; border-radius: 1rem; transition: 0.3s; }
         .main-page { display: none; }
-        .main-page.active { display: flex; animation: fadeIn 0.4s ease-in-out; }
+        .main-page.active { display: flex; animation: fadeIn 0.4s ease; }
         .sub-page { display: none; }
-        .sub-page.active { display: block; animation: slideUp 0.3s ease-out; }
+        .sub-page.active { display: block; animation: slideUp 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideUp { from { transform: translateY(15px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .nav-link.active { color: #ff8c00; font-weight: 800; }
         
-        /* Middle Navigation Circle Button */
-        .task-btn-center { 
-            background: #ff8c00; color: white; border-radius: 50%; width: 58px; height: 58px; 
-            display: flex; align-items: center; justify-content: center; 
-            margin-top: -35px; border: 5px solid white; box-shadow: 0 5px 20px rgba(255,140,0,0.4);
-            z-index: 60; transition: 0.3s;
-        }
-        .task-btn-center:active { transform: translateY(2px) scale(0.9); }
+        /* Task Buttons from your Screenshot */
+        .join-btn { background: #0088cc; color: white; padding: 8px 20px; border-radius: 10px; font-weight: 800; font-size: 13px; box-shadow: 0 4px 10px rgba(0,136,204,0.3); }
+        .verify-btn { background: linear-gradient(to right, #6a11cb, #2575fc); color: white; padding: 8px 20px; border-radius: 10px; font-weight: 800; font-size: 13px; box-shadow: 0 4px 10px rgba(106,17,203,0.3); }
+        .verify-btn:disabled { background: #e5e7eb; color: #9ca3af; box-shadow: none; cursor: not-allowed; }
 
-        /* Task Button Styles */
-        .join-btn { background: #0088cc; color: white; padding: 7px 18px; border-radius: 10px; font-weight: 700; font-size: 13px; box-shadow: 0 2px 5px rgba(0,136,204,0.3); }
-        .verify-btn { background: linear-gradient(to right, #6a11cb, #2575fc); color: white; padding: 7px 18px; border-radius: 10px; font-weight: 700; font-size: 13px; }
-        .verify-btn:disabled { background: #f3f4f6; color: #9ca3af; cursor: not-allowed; box-shadow: none; }
-        
+        .task-btn-center { 
+            background: #ff8c00; color: white; border-radius: 50%; width: 55px; height: 55px; 
+            display: flex; align-items: center; justify-content: center; 
+            margin-top: -30px; border: 4px solid white; box-shadow: 0 4px 15px rgba(255,140,0,0.4); z-index: 60;
+        }
+
         .loader-ring { border: 2px solid #f3f3f3; border-top: 2px solid #ff8c00; border-radius: 50%; width: 16px; height: 16px; animation: spin 1s linear infinite; display: inline-block; vertical-align: middle; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        #block-screen { display: none; position: fixed; inset: 0; background: white; z-index: 2000; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem; }
+        
+        #block-screen { display: none; position: fixed; inset: 0; background: white; z-index: 1000; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem; }
     </style>
 </head>
 <body class="max-w-md mx-auto min-h-screen relative shadow-2xl overflow-x-hidden">
 
-    <!-- App Global Loader -->
-    <div id="loader" class="hidden fixed inset-0 bg-white/95 backdrop-blur-md flex items-center justify-center z-[1000]">
+    <div id="loader" class="hidden fixed inset-0 bg-white/90 backdrop-blur-sm flex items-center justify-center z-[100]">
         <div class="flex flex-col items-center">
-            <div class="w-14 h-14 border-4 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
-            <p class="mt-4 font-bold text-orange-600 animate-pulse uppercase tracking-widest text-xs">Authenticating...</p>
+            <div class="w-12 h-12 border-4 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
+            <p class="mt-4 font-bold text-orange-600">Checking...</p>
         </div>
     </div>
 
-    <!-- Multi-Account / Device ID Block -->
     <div id="block-screen">
-        <div class="bg-red-50 p-8 rounded-full mb-6 animate-bounce"><i data-lucide="shield-alert" class="w-20 h-20 text-red-500"></i></div>
-        <h1 class="text-3xl font-black text-gray-900 mb-2">Access Blocked!</h1>
-        <p class="text-gray-500 px-6 leading-relaxed">System detected multiple accounts on this device. For policy reasons, you are restricted from creating more than one account.</p>
+        <div class="bg-red-50 p-6 rounded-full mb-4 animate-pulse"><i data-lucide="shield-alert" class="w-16 h-16 text-red-500"></i></div>
+        <h1 class="text-2xl font-bold text-gray-800">Security Restriction!</h1>
+        <p class="text-gray-500 mt-2 px-4">Multiple accounts are not allowed on this device.</p>
     </div>
 
     <!-- Auth View -->
     <div id="auth-section" class="min-h-screen p-8 flex-col justify-center main-page">
-        <div class="text-center mb-12">
-            <h1 class="text-4xl font-black text-orange-600 tracking-tighter">CASHREWARD</h1>
-            <p class="text-gray-400 mt-1 font-medium">Earn money safely and instantly</p>
-        </div>
-        
+        <div class="text-center mb-10"><h1 class="text-3xl font-black text-orange-600 tracking-tighter">CASHREWARD</h1><p class="text-gray-400">Secure Earning Hub</p></div>
         <div id="login-view" class="space-y-4">
-            <div class="space-y-1"><label class="text-xs font-bold text-gray-400 ml-1 uppercase">Email Address</label>
-            <input id="login-email" type="email" placeholder="user@email.com" class="w-full p-4 card-bg border outline-none focus:border-orange-500 transition-all"></div>
-            <div class="space-y-1"><label class="text-xs font-bold text-gray-400 ml-1 uppercase">Secret Password</label>
-            <input id="login-password" type="password" placeholder="••••••••" class="w-full p-4 card-bg border outline-none focus:border-orange-500 transition-all"></div>
-            <button id="login-btn" class="w-full p-4 rounded-2xl btn-accent shadow-xl shadow-orange-100">Login Account</button>
-            <p class="text-center text-sm font-medium">New member? <a href="#" id="show-signup" class="text-orange-600 font-bold">Join Now</a></p>
+            <input id="login-email" type="email" placeholder="Email" class="w-full p-4 card-bg border outline-none focus:border-orange-500">
+            <input id="login-password" type="password" placeholder="Password" class="w-full p-4 card-bg border outline-none focus:border-orange-500">
+            <button id="login-btn" class="w-full p-4 rounded-xl btn-accent shadow-lg">Login</button>
+            <p class="text-center text-sm">New user? <a href="#" id="show-signup" class="text-orange-600 font-bold">Sign Up</a></p>
         </div>
-
         <div id="signup-view" class="hidden space-y-4">
-            <input id="signup-name" type="text" placeholder="Your Full Name" class="w-full p-4 card-bg border outline-none">
-            <input id="signup-email" type="email" placeholder="Your Email Address" class="w-full p-4 card-bg border outline-none">
-            <input id="signup-password" type="password" placeholder="Create Password" class="w-full p-4 card-bg border outline-none">
-            <button id="signup-btn" class="w-full p-4 rounded-2xl btn-accent shadow-xl shadow-orange-100">Create My Account</button>
-            <p class="text-center text-sm font-medium">Already registered? <a href="#" id="show-login" class="text-orange-600 font-bold">Login</a></p>
+            <input id="signup-name" type="text" placeholder="Name" class="w-full p-4 card-bg border outline-none">
+            <input id="signup-email" type="email" placeholder="Email" class="w-full p-4 card-bg border outline-none">
+            <input id="signup-password" type="password" placeholder="Password" class="w-full p-4 card-bg border outline-none">
+            <button id="signup-btn" class="w-full p-4 rounded-xl btn-accent">Create Account</button>
+            <p class="text-center text-sm">Have account? <a href="#" id="show-login" class="text-orange-600 font-bold">Login</a></p>
         </div>
     </div>
 
-    <!-- App View Container -->
+    <!-- App View -->
     <div id="app-container" class="min-h-screen flex-col main-page">
         <header class="p-4 bg-white border-b sticky top-0 z-10 flex justify-between items-center">
-            <div class="flex items-center gap-2"><div class="p-2 bg-orange-50 rounded-xl text-orange-600"><i data-lucide="zap" class="w-5 h-5 fill-orange-600"></i></div><h2 class="font-black text-xl tracking-tighter">CASHREWARD</h2></div>
-            <div id="notif-bell-btn" class="relative cursor-pointer bg-gray-50 p-2.5 rounded-full">
+            <div class="flex items-center gap-2"><div class="p-2 bg-orange-100 rounded-lg text-orange-600"><i data-lucide="zap" class="w-5 h-5"></i></div><h2 class="font-bold text-lg">CASHREWARD</h2></div>
+            <div onclick="navigate('notif-page')" class="relative cursor-pointer bg-gray-50 p-2.5 rounded-full">
                 <i data-lucide="bell" class="w-5 h-5 text-gray-600"></i>
                 <span id="notif-dot" class="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white hidden"></span>
             </div>
@@ -99,105 +86,85 @@
         <main class="flex-grow pb-28">
             <!-- Home -->
             <div id="home-page" class="p-5 space-y-6 sub-page">
-                <div class="btn-accent p-8 rounded-[2.5rem] shadow-2xl relative overflow-hidden">
-                    <p class="text-white/80 text-xs font-bold uppercase tracking-widest">Main Coins Balance</p>
-                    <h3 class="text-5xl font-black mt-2 tracking-tighter"><span id="coin-balance">0</span></h3>
-                    <div class="mt-4 inline-flex items-center gap-2 bg-white/20 px-4 py-1.5 rounded-full text-[10px] font-bold uppercase backdrop-blur-md">
-                        <i data-lucide="star" class="w-3 h-3"></i> Premium User
-                    </div>
-                    <i data-lucide="wallet" class="w-28 h-28 text-white/10 absolute -right-4 -bottom-4"></i>
+                <div class="btn-accent p-7 rounded-[2rem] shadow-xl relative overflow-hidden">
+                    <p class="text-white/80 text-sm font-bold uppercase tracking-widest">Your Balance</p>
+                    <h3 class="text-4xl font-black mt-1 tracking-tight"><span id="coin-balance">0</span> <small id="cur-display" class="text-sm font-normal">Coins</small></h3>
+                    <i data-lucide="wallet" class="w-20 h-20 text-white/10 absolute -right-2 -bottom-2"></i>
                 </div>
-
-                <div class="space-y-4">
-                    <h3 class="font-bold text-gray-400 text-xs uppercase tracking-widest ml-1">Daily Bonus Tasks</h3>
-                    <div onclick="claimReward('interstitial')" class="card-bg p-5 flex items-center justify-between cursor-pointer hover:bg-orange-50 transition-all border-orange-50">
-                        <div class="flex items-center gap-5">
-                            <div class="bg-orange-100 p-3.5 rounded-2xl text-orange-600 shadow-sm"><i data-lucide="play-circle"></i></div>
-                            <div><p class="font-bold text-gray-800">Rewarded Video Ad</p><p class="text-[10px] font-bold text-orange-600">Instant +50 Coins</p></div>
-                        </div>
-                        <i data-lucide="chevron-right" class="text-gray-300 w-5 h-5"></i>
-                    </div>
+                <div class="card-bg p-5 flex items-center justify-between cursor-pointer" onclick="claimReward('ad')">
+                    <div class="flex items-center gap-4"><div class="bg-orange-100 p-3 rounded-xl text-orange-600 shadow-sm"><i data-lucide="play"></i></div><div><p class="font-bold">Watch Video Ad</p><p class="text-xs text-gray-400">Earn Instant Rewards</p></div></div>
+                    <i data-lucide="chevron-right" class="text-gray-300"></i>
                 </div>
             </div>
 
-            <!-- Tasks Page (Middle Button Logic) -->
+            <!-- Task Page (Verified Logic Inside) -->
             <div id="tasks-page" class="p-5 sub-page space-y-5">
-                <div class="flex justify-between items-center mb-2">
-                    <h2 class="text-2xl font-black tracking-tighter">SPECIAL TASKS</h2>
-                    <span class="bg-orange-100 text-orange-600 text-[10px] font-black px-3 py-1 rounded-full uppercase">Telegram</span>
-                </div>
+                <h2 class="text-2xl font-black tracking-tighter">Available Tasks</h2>
                 <div id="dynamic-tasks-list" class="space-y-4">
-                    <!-- Tasks will load here in real-time -->
+                    <!-- Tasks load dynamically -->
                 </div>
             </div>
 
             <!-- Notifications -->
             <div id="notif-page" class="p-5 sub-page space-y-4">
-                <h2 class="text-2xl font-black tracking-tighter">INBOX</h2>
+                <h2 class="text-xl font-bold">Notifications</h2>
                 <div id="notif-list" class="space-y-3"></div>
             </div>
 
             <!-- Wallet -->
             <div id="wallet-page" class="p-5 sub-page">
-                <div class="card-bg p-7 border-2 border-orange-50 shadow-lg space-y-5">
-                    <h3 class="font-black text-xl tracking-tight">Request Payout</h3>
-                    <div class="text-center py-2"><p class="text-xs font-bold text-gray-400 uppercase">Available for Cashout</p><p class="text-3xl font-black text-orange-600"><span id="wallet-coin-balance">0</span> <span class="currency-name">Coins</span></p></div>
-                    <div class="space-y-4">
-                        <input id="withdraw-amount" type="number" placeholder="Enter coin amount" class="w-full p-4 bg-white border rounded-2xl outline-none focus:border-orange-400 font-bold">
-                        <select id="withdraw-method" class="w-full p-4 bg-white border rounded-2xl outline-none font-bold"></select>
-                        <div id="payment-input-container"></div>
-                        <button id="withdraw-btn" class="w-full p-4 rounded-2xl btn-accent shadow-lg">Submit Withdrawal</button>
-                    </div>
+                <div class="card-bg p-6 space-y-4 shadow-lg border-orange-50">
+                    <h3 class="font-bold text-lg">Request Payout</h3>
+                    <p class="text-sm text-gray-400">Available: <span id="wallet-coin-balance" class="font-bold text-orange-600">0</span> <span class="currency-name">Coins</span></p>
+                    <input id="withdraw-amount" type="number" placeholder="Enter amount" class="w-full p-4 bg-white border rounded-xl outline-none">
+                    <select id="withdraw-method" class="w-full p-4 bg-white border rounded-xl"></select>
+                    <div id="payment-input-container"></div>
+                    <button id="withdraw-btn" class="w-full p-4 rounded-xl btn-accent shadow-lg shadow-orange-100">Withdraw Now</button>
                 </div>
-                <div id="history-list" class="mt-10 space-y-3"></div>
+                <div id="history-list" class="mt-8 space-y-3"></div>
             </div>
 
             <!-- Refer -->
-            <div id="refer-page" class="p-5 sub-page space-y-8">
-                <div class="card-bg p-8 text-center space-y-4 border-orange-50">
-                    <div class="bg-orange-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto text-orange-600 shadow-inner"><i data-lucide="users" class="w-10 h-10"></i></div>
-                    <h2 class="text-2xl font-black tracking-tighter">REFER & EARN</h2>
-                    <p class="text-xs font-medium text-gray-400 px-6">Share your code with friends. When they use it, you both get <span id="ref-bonus-text" class="text-orange-600 font-bold">...</span> bonus!</p>
-                    <div class="bg-white border-2 border-dashed border-orange-200 p-5 rounded-2xl flex items-center justify-center gap-5">
-                        <span id="my-refer-code" class="text-3xl font-black tracking-widest text-orange-600">...</span>
-                        <button id="copy-ref-btn" class="p-2 bg-orange-50 rounded-xl text-orange-600 active:scale-90 transition-all"><i data-lucide="copy" class="w-6 h-6"></i></button>
+            <div id="refer-page" class="p-5 sub-page space-y-6">
+                <div class="card-bg p-8 text-center space-y-4">
+                    <div class="bg-orange-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto text-orange-600"><i data-lucide="users"></i></div>
+                    <h2 class="text-xl font-bold">Refer & Earn</h2>
+                    <p class="text-sm text-gray-400">Invite friends and get <span id="ref-bonus-val" class="text-orange-600 font-bold">...</span> bonus!</p>
+                    <div class="bg-white border-2 border-dashed border-orange-200 p-4 rounded-xl flex items-center justify-center gap-4">
+                        <span id="my-refer-code" class="text-2xl font-bold tracking-widest text-orange-600">...</span>
+                        <button id="copy-ref-btn" class="text-gray-400 p-1.5 bg-gray-50 rounded-lg"><i data-lucide="copy" class="w-5 h-5"></i></button>
                     </div>
                 </div>
                 <div id="apply-refer-container" class="card-bg p-6 space-y-4">
-                    <h3 class="font-bold text-gray-800 text-sm ml-1">Have a friend's code?</h3>
-                    <input id="apply-code-input" type="text" placeholder="EX: AB1234" class="w-full p-4 bg-white border rounded-2xl outline-none uppercase font-black tracking-widest focus:border-orange-500">
-                    <button id="apply-code-btn" class="w-full p-4 bg-orange-100 text-orange-600 font-black rounded-2xl hover:bg-orange-200 transition-all">Claim Refer Bonus</button>
+                    <input id="input-refer-code" type="text" placeholder="Enter code" class="w-full p-4 bg-white border rounded-xl outline-none uppercase font-bold tracking-widest">
+                    <button id="apply-refer-btn" class="w-full p-4 bg-orange-100 text-orange-600 font-bold rounded-xl">Apply Refer Code</button>
                 </div>
             </div>
 
             <!-- Profile -->
             <div id="profile-page" class="p-5 sub-page text-center">
-                <div class="card-bg p-8 space-y-6 border-orange-50 shadow-lg">
-                    <div class="w-28 h-28 bg-gradient-to-tr from-orange-500 to-orange-300 rounded-[2rem] mx-auto p-1.5 shadow-xl"><div class="w-full h-full bg-white rounded-[1.8rem] flex items-center justify-center text-orange-500"><i data-lucide="user" class="w-12 h-12"></i></div></div>
-                    <div><h2 id="user-name" class="text-2xl font-black tracking-tight uppercase">...</h2><p id="user-email" class="text-xs font-bold text-gray-400 tracking-wide">...</p></div>
-                    <button id="logout-btn" class="w-full p-4 bg-red-50 text-red-600 font-black rounded-2xl flex items-center justify-center gap-3 active:scale-95 transition-all"><i data-lucide="log-out" class="w-5 h-5"></i> Logout Profile</button>
+                <div class="card-bg p-8 space-y-5 shadow-lg">
+                    <div class="w-24 h-24 bg-orange-50 rounded-full mx-auto flex items-center justify-center text-orange-500 border-4 border-white shadow-sm"><i data-lucide="user" class="w-12 h-12"></i></div>
+                    <div><h2 id="user-name" class="text-2xl font-black uppercase">...</h2><p id="user-email" class="text-sm text-gray-400">...</p></div>
+                    <button id="logout-btn" class="w-full p-4 bg-red-50 text-red-600 font-bold rounded-xl flex items-center justify-center gap-2"><i data-lucide="log-out"></i> Logout Account</button>
                 </div>
             </div>
         </main>
 
-        <!-- Navigation -->
         <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white border-t p-3 flex justify-between items-center z-50">
-            <a href="#" class="nav-link flex flex-col items-center flex-1 active" data-page="home-page"><i data-lucide="home" class="w-6 h-6"></i><span class="text-[10px] font-bold mt-1 uppercase tracking-tighter">Home</span></a>
-            <a href="#" class="nav-link flex flex-col items-center flex-1" data-page="wallet-page"><i data-lucide="wallet" class="w-6 h-6"></i><span class="text-[10px] font-bold mt-1 uppercase tracking-tighter">Wallet</span></a>
-            
-            <a href="#" class="task-btn-center nav-link shadow-orange-500/40" data-page="tasks-page"><i data-lucide="layout-grid" class="w-7 h-7"></i></a>
-
-            <a href="#" class="nav-link flex flex-col items-center flex-1" data-page="refer-page"><i data-lucide="users" class="w-6 h-6"></i><span class="text-[10px] font-bold mt-1 uppercase tracking-tighter">Refer</span></a>
-            <a href="#" class="nav-link flex flex-col items-center flex-1" data-page="profile-page"><i data-lucide="user" class="w-6 h-6"></i><span class="text-[10px] font-bold mt-1 uppercase tracking-tighter">Profile</span></a>
+            <a href="#" class="nav-link flex flex-col items-center flex-1 active" data-page="home-page"><i data-lucide="home" class="w-6 h-6"></i><span class="text-[10px] font-bold mt-1">Home</span></a>
+            <a href="#" class="nav-link flex flex-col items-center flex-1" data-page="wallet-page"><i data-lucide="wallet" class="w-6 h-6"></i><span class="text-[10px] font-bold mt-1">Wallet</span></a>
+            <a href="#" class="task-btn-center nav-link" data-page="tasks-page"><i data-lucide="layout-grid" class="w-7 h-7"></i></a>
+            <a href="#" class="nav-link flex flex-col items-center flex-1" data-page="refer-page"><i data-lucide="users" class="w-6 h-6"></i><span class="text-[10px] font-bold mt-1">Refer</span></a>
+            <a href="#" class="nav-link flex flex-col items-center flex-1" data-page="profile-page"><i data-lucide="user" class="w-6 h-6"></i><span class="text-[10px] font-bold mt-1">Profile</span></a>
         </nav>
     </div>
 
-    <!-- Custom Alert -->
+    <!-- Alert Box -->
     <div id="alert-box" class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-[5000] p-6">
         <div class="bg-white p-7 rounded-[2rem] w-full max-w-xs text-center shadow-2xl border border-orange-50">
-            <div class="w-16 h-16 bg-orange-50 rounded-full flex items-center justify-center mx-auto mb-4 text-orange-600"><i data-lucide="info"></i></div>
             <p id="alert-msg" class="mb-8 font-bold text-gray-700 leading-tight"></p>
-            <button id="alert-close" class="w-full p-4 btn-accent rounded-2xl shadow-lg shadow-orange-200 uppercase tracking-widest text-xs">I Understand</button>
+            <button id="alert-close" class="w-full p-4 btn-accent rounded-2xl shadow-lg shadow-orange-100">Got it</button>
         </div>
     </div>
 
@@ -223,11 +190,13 @@
         let currentUser = null, userData = null, adminConfig = {};
         const loader = document.getElementById('loader');
         const taskListEl = document.getElementById('dynamic-tasks-list');
-        const joinClickedSession = new Set(); // Session tracking for Join clicks
+        
+        // --- JOIN TRACKER (To prevent verify before join) ---
+        const joinedTasks = new Set();
 
         const getDeviceId = () => {
             let id = localStorage.getItem('nabid_secure_token');
-            if(!id) { id = 'DEV-' + Math.random().toString(36).substring(2, 12).toUpperCase(); localStorage.setItem('nabid_secure_token', id); }
+            if(!id) { id = 'DEV-' + Math.random().toString(36).substring(2, 10).toUpperCase(); localStorage.setItem('nabid_secure_token', id); }
             return id;
         };
 
@@ -238,11 +207,13 @@
                 loader.style.display = 'flex';
                 currentUser = user;
                 
-                // Real-time listener for User Profile (AUTO-REFRESH FIX)
+                // Real-time User Listener (AUTO REFRESH FIX)
                 onSnapshot(doc(db, "users", user.uid), (snap) => {
                     if(snap.exists()){
                         userData = snap.data();
-                        updateUI(); // Updates balance and Done state instantly
+                        updateUI();
+                        // Also update task list when user data (completed tasks) changes
+                        renderTasksFromSnapshot();
                     } else { signOut(auth); }
                 });
 
@@ -255,71 +226,75 @@
         }
 
         async function fetchAdminConfig() {
-            // Real-time listener for Config
             onSnapshot(doc(db, "config", "main"), (snap) => {
                 adminConfig = snap.exists() ? snap.data() : { referBonus: 100, currency: "Coins" };
-                document.getElementById('cur-display').nextElementSibling.innerText = adminConfig.currency;
+                document.getElementById('cur-display').innerText = adminConfig.currency;
                 document.querySelectorAll('.currency-name').forEach(el => el.innerText = adminConfig.currency);
-                document.getElementById('ref-bonus-text').innerText = adminConfig.referBonus + " " + adminConfig.currency;
+                document.getElementById('ref-bonus-val').innerText = adminConfig.referBonus;
             });
         }
 
-        // --- Only Join/Verify Dynamic Tasks logic ---
+        // --- Real-time Task Rendering ---
+        let currentTasksData = [];
         function loadDynamicTasks() {
             onSnapshot(collection(db, "tasks"), (snapshot) => {
-                taskListEl.innerHTML = '';
-                if(snapshot.empty) taskListEl.innerHTML = '<p class="text-center text-gray-400 font-bold uppercase text-[10px] mt-10 tracking-widest">No Active Tasks Available</p>';
-                
-                snapshot.forEach(docSnap => {
-                    const t = docSnap.data();
-                    const taskId = docSnap.id;
-                    const isDone = userData.completedTasks?.includes(taskId);
-
-                    const html = `
-                        <div class="card-bg p-5 flex items-center justify-between border-2 border-transparent ${isDone ? 'opacity-40 grayscale pointer-events-none' : 'hover:border-orange-100'} transition-all">
-                            <div class="flex items-center gap-4">
-                                <div class="bg-indigo-50 p-3 rounded-2xl text-indigo-600"><i data-lucide="send"></i></div>
-                                <div><p class="font-black text-gray-800 tracking-tight uppercase text-xs">${t.title}</p><p class="text-[10px] font-black text-indigo-600 mt-0.5">+${t.reward} ${adminConfig.currency}</p></div>
-                            </div>
-                            <div class="flex flex-col gap-2">
-                                <button onclick="handleJoinAction('${taskId}', '${t.link}')" class="join-btn ${isDone ? 'hidden' : ''}">JOIN</button>
-                                <button id="v-${taskId}" onclick="verifyAction('${taskId}', ${t.reward})" class="verify-btn shadow-lg shadow-indigo-100" ${isDone ? 'disabled' : ''}>
-                                    ${isDone ? 'DONE' : 'VERIFY'}
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                    taskListEl.insertAdjacentHTML('beforeend', html);
-                });
-                lucide.createIcons();
+                currentTasksData = [];
+                snapshot.forEach(docSnap => currentTasksData.push({id: docSnap.id, ...docSnap.data()}));
+                renderTasksFromSnapshot();
             });
+        }
+
+        function renderTasksFromSnapshot() {
+            if(!taskListEl) return;
+            taskListEl.innerHTML = '';
+            if(currentTasksData.length === 0) taskListEl.innerHTML = '<p class="text-center text-gray-400 mt-10 uppercase text-[10px] font-black tracking-widest">No Active Tasks</p>';
+            
+            currentTasksData.forEach(t => {
+                const isDone = userData.completedTasks?.includes(t.id);
+                const html = `
+                    <div class="card-bg p-5 flex items-center justify-between border-2 border-transparent ${isDone ? 'opacity-40 grayscale pointer-events-none' : 'hover:border-orange-100'} transition-all">
+                        <div class="flex items-center gap-4">
+                            <div class="bg-indigo-50 p-3 rounded-2xl text-indigo-600"><i data-lucide="send"></i></div>
+                            <div><p class="font-black text-gray-800 uppercase text-xs">${t.title}</p><p class="text-[10px] font-black text-indigo-600 mt-0.5">+${t.reward} ${adminConfig.currency}</p></div>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <button onclick="handleJoinAction('${t.id}', '${t.link}')" class="join-btn ${isDone ? 'hidden' : ''}">JOIN</button>
+                            <button id="v-${t.id}" onclick="verifyAction('${t.id}', ${t.reward})" class="verify-btn shadow-lg shadow-indigo-100" ${isDone ? 'disabled' : ''}>
+                                ${isDone ? 'DONE' : 'VERIFY'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+                taskListEl.insertAdjacentHTML('beforeend', html);
+            });
+            lucide.createIcons();
         }
 
         window.handleJoinAction = (taskId, link) => {
-            joinClickedSession.add(taskId);
+            joinedTasks.add(taskId);
             window.open(link, '_blank');
         };
 
         window.verifyAction = async (id, reward) => {
-            // Check if user actually clicked JOIN first
-            if(!joinClickedSession.has(id)) {
-                return showAlert("JOIN FAILED: You must click the JOIN button and follow the channel before verification!");
+            // --- CHECK IF JOIN WAS CLICKED ---
+            if(!joinedTasks.has(id)) {
+                return showAlert("Verification Failed! You must click the JOIN button and join the channel first.");
             }
 
             const btn = document.getElementById('v-'+id);
             btn.disabled = true; btn.innerHTML = '<span class="loader-ring"></span>';
             
-            // 3 Sec Loading Animation (Dynamic Refresh feel)
+            // 3 Sec Loading (Realistic Check)
             setTimeout(async () => {
                 const tasks = userData.completedTasks || [];
-                if(tasks.includes(id)) return; // Prevent double reward
+                if(tasks.includes(id)) return;
 
                 tasks.push(id);
                 const newBal = (userData.balance || 0) + reward;
                 
-                // Update Firestore - Realtime listener will catch this and update UI instantly
+                // Save to Firestore - Real-time listener will update UI instantly
                 await updateDoc(doc(db, "users", currentUser.uid), { balance: newBal, completedTasks: tasks });
-                showAlert(`VERIFIED: +${reward} ${adminConfig.currency} added successfully!`);
+                showAlert(`Verification Success! +${reward} ${adminConfig.currency} added to balance.`);
             }, 3000);
         }
 
@@ -340,7 +315,7 @@
                 await setDoc(doc(db, "users", cred.user.uid), {
                     uid: cred.user.uid, name, email, balance: 50, deviceId: devId,
                     referralCode: Math.random().toString(36).substring(2, 8).toUpperCase(),
-                    completedTasks: [], createdAt: serverTimestamp()
+                    completedTasks: [], createdAt: serverTimestamp(), isReferApplied: false
                 });
             } catch(e) { showAlert(e.message); }
             finally { loader.style.display = 'none'; }
@@ -353,11 +328,10 @@
             document.getElementById('user-name').innerText = userData.name;
             document.getElementById('user-email').innerText = userData.email;
             document.getElementById('my-refer-code').innerText = userData.referralCode;
-            // UI elements update automatically because logic is tied to userData state
         }
 
         function showMain(id) { document.querySelectorAll('.main-page').forEach(p => p.classList.remove('active')); document.getElementById(id).classList.add('active'); }
-        function navigateTo(id) {
+        function navigate(id) {
             document.querySelectorAll('.sub-page').forEach(p => p.classList.remove('active'));
             document.getElementById(id).classList.add('active');
             document.querySelectorAll('.nav-link').forEach(l => {
@@ -376,11 +350,11 @@
             }
             document.getElementById('show-signup').onclick = () => { document.getElementById('login-view').classList.add('hidden'); document.getElementById('signup-view').classList.remove('hidden'); }
             document.getElementById('show-login').onclick = () => { document.getElementById('signup-view').classList.add('hidden'); document.getElementById('login-view').classList.remove('hidden'); }
-            document.querySelectorAll('.nav-link').forEach(l => l.onclick = (e) => { e.preventDefault(); navigateTo(l.dataset.page); });
+            document.querySelectorAll('.nav-link').forEach(l => l.onclick = (e) => { e.preventDefault(); navigate(l.dataset.page); });
             document.getElementById('logout-btn').onclick = () => signOut(auth);
             document.getElementById('copy-ref-btn').onclick = () => { navigator.clipboard.writeText(userData.referralCode); showAlert("Refer Code Copied!"); };
             document.getElementById('alert-close').onclick = () => document.getElementById('alert-box').classList.add('hidden');
-            document.getElementById('notif-bell-btn').onclick = () => navigateTo('notif-page');
+            document.getElementById('notif-bell-btn').onclick = () => navigate('notif-page');
         }
 
         function showAlert(msg) { document.getElementById('alert-msg').innerText = msg; document.getElementById('alert-box').classList.remove('hidden'); }
@@ -391,7 +365,7 @@
                 if(!snap.empty) document.getElementById('notif-dot').classList.remove('hidden');
                 snap.forEach(d => {
                     const n = d.data();
-                    list.innerHTML += `<div class="card-bg p-5"><h4 class="font-black text-sm uppercase tracking-tight">${n.title}</h4><p class="text-xs font-medium text-gray-500 mt-1">${n.msg}</p></div>`;
+                    list.innerHTML += `<div class="card-bg p-5 border-orange-50 shadow-sm"><h4 class="font-black text-sm uppercase tracking-tight">${n.title}</h4><p class="text-xs font-medium text-gray-400 mt-1">${n.msg}</p></div>`;
                 });
             });
         }
