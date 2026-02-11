@@ -3,203 +3,179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>𝐍𝐈𝐑𝐎𝐁 𝐀𝐋 𝐀𝐇𝐒𝐀𝐍 𝐍𝐀𝐁𝐈𝐃</title>
+    <title>CASHREWARD - EARN MONEY</title>
     
-    <!-- Scripts -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Ad SDK -->
     <script src='//libtl.com/sdk.js' data-zone='9924924' data-sdk='show_9924924'></script>
 
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #1f2937; margin: 0; padding: 0; }
         .card-bg { background-color: #f9fafb; border: 1px solid #f1f5f9; border-radius: 1.25rem; }
         .btn-accent { background: linear-gradient(135deg, #ff8c00, #ff5e00); color: white; font-weight: 700; border-radius: 1rem; border: none; }
+        
         .main-page { display: none; min-height: 100vh; flex-direction: column; }
         .main-page.active { display: flex; }
+        
         .sub-page { display: none; }
-        .sub-page.active { display: block; animation: slideUp 0.3s ease-out; }
-        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .sub-page.active { display: block; animation: slideUp 0.2s ease-out; }
+        
+        @keyframes slideUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        
         .nav-link.active { color: #ff8c00; font-weight: 800; }
         
-        /* Specific Middle Task Button Logic */
         .task-btn-center { 
-            background: #ff8c00; color: white !important; border-radius: 50%; width: 60px; height: 60px; 
+            background: #ff8c00; color: white !important; border-radius: 50%; width: 55px; height: 55px; 
             display: flex; align-items: center; justify-content: center; 
-            margin-top: -35px; border: 5px solid white; box-shadow: 0 8px 20px rgba(255,140,0,0.4);
-            z-index: 100; transition: 0.3s;
+            margin-top: -30px; border: 4px solid white; box-shadow: 0 4px 15px rgba(255,140,0,0.3);
+            z-index: 100; transition: 0.2s;
         }
 
-        .join-btn { background: #0088cc; color: white; padding: 8px 18px; border-radius: 10px; font-weight: 800; font-size: 12px; border: none; cursor: pointer; }
-        .verify-btn { background: linear-gradient(to right, #6a11cb, #2575fc); color: white; padding: 8px 18px; border-radius: 10px; font-weight: 800; font-size: 12px; border: none; cursor: pointer; }
-        .verify-btn:disabled { background: #cbd5e1; color: #94a3b8; cursor: not-allowed; }
+        .join-btn { background: #0088cc; color: white; padding: 8px 16px; border-radius: 8px; font-weight: 800; font-size: 11px; }
+        .verify-btn { background: #6366f1; color: white; padding: 8px 16px; border-radius: 8px; font-weight: 800; font-size: 11px; }
+        .verify-btn:disabled { background: #cbd5e1; cursor: not-allowed; }
 
-        .loader-ring { border: 3px solid #f3f3f3; border-top: 3px solid #ff8c00; border-radius: 50%; width: 18px; height: 18px; animation: spin 1s linear infinite; display: inline-block; }
+        .loader-ring { border: 2px solid #f3f3f3; border-top: 2px solid #fff; border-radius: 50%; width: 14px; height: 14px; animation: spin 0.8s linear infinite; display: inline-block; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         #block-screen { display: none; position: fixed; inset: 0; background: white; z-index: 9999; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem; }
     </style>
 </head>
-<body class="max-w-md mx-auto relative shadow-2xl overflow-x-hidden">
+<body class="max-w-md mx-auto relative shadow-2xl">
 
-    <!-- Screen Blocker for Multi-account -->
+    <!-- Screen Blocker -->
     <div id="block-screen">
         <div class="bg-red-50 p-6 rounded-full mb-6 text-red-500"><i data-lucide="user-x" class="w-16 h-16"></i></div>
-        <h1 class="text-2xl font-black text-gray-800">Account Forbidden</h1>
-        <p class="text-gray-500 mt-2 px-6">System detected you already have an account on this device. Multiple accounts are not allowed.</p>
+        <h1 class="text-2xl font-black text-gray-800">Multiple Accounts Blocked</h1>
+        <p class="text-gray-500 mt-2 px-6">You already have an account on this device.</p>
     </div>
 
     <!-- Global Loader -->
     <div id="loader" class="fixed inset-0 bg-white z-[9000] flex items-center justify-center">
         <div class="flex flex-col items-center">
-            <div class="w-12 h-12 border-4 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
-            <p class="mt-4 font-bold text-orange-600 animate-pulse uppercase tracking-tighter">Initializing NABID EARN...</p>
+            <div class="w-10 h-10 border-4 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
+            <p class="mt-4 font-bold text-orange-600 text-xs tracking-widest uppercase">Loading...</p>
         </div>
     </div>
 
-    <!-- Auth Section -->
+    <!-- Auth -->
     <div id="auth-section" class="main-page p-8 justify-center">
         <div class="text-center mb-10">
-            <h1 class="text-4xl font-black text-orange-600 tracking-tighter">CASHREWARD</h1>
-            <p class="text-gray-400 font-medium">Safe & Secure Earning Platform</p>
+            <h1 class="text-4xl font-black text-orange-600 tracking-tighter uppercase">CashReward</h1>
+            <p class="text-gray-400 font-bold text-xs mt-1">START EARNING TODAY</p>
         </div>
         <div id="login-view" class="space-y-4">
-            <input id="login-email" type="email" placeholder="Email Address" class="w-full p-4 card-bg border outline-none focus:border-orange-500">
-            <input id="login-password" type="password" placeholder="Password" class="w-full p-4 card-bg border outline-none focus:border-orange-500">
-            <button id="login-btn" class="w-full p-4 btn-accent shadow-lg shadow-orange-100">Login to Account</button>
-            <p class="text-center text-sm font-semibold text-gray-500">New here? <a href="#" id="show-signup" class="text-orange-600">Create Account</a></p>
+            <input id="login-email" type="email" placeholder="Email" class="w-full p-4 card-bg border outline-none">
+            <input id="login-password" type="password" placeholder="Password" class="w-full p-4 card-bg border outline-none">
+            <button id="login-btn" class="w-full p-4 btn-accent">Login</button>
+            <p class="text-center text-xs font-bold text-gray-400">No account? <span id="show-signup" class="text-orange-600 cursor-pointer">Sign Up</span></p>
         </div>
         <div id="signup-view" class="hidden space-y-4">
             <input id="signup-name" type="text" placeholder="Full Name" class="w-full p-4 card-bg border outline-none">
-            <input id="signup-email" type="email" placeholder="Email Address" class="w-full p-4 card-bg border outline-none">
-            <input id="signup-password" type="password" placeholder="Set Password" class="w-full p-4 card-bg border outline-none">
-            <button id="signup-btn" class="w-full p-4 btn-accent shadow-lg shadow-orange-100">Sign Up Now</button>
-            <p class="text-center text-sm font-semibold text-gray-500">Have an account? <a href="#" id="show-login" class="text-orange-600">Login</a></p>
+            <input id="signup-email" type="email" placeholder="Email" class="w-full p-4 card-bg border outline-none">
+            <input id="signup-password" type="password" placeholder="Password" class="w-full p-4 card-bg border outline-none">
+            <button id="signup-btn" class="w-full p-4 btn-accent">Create Account</button>
+            <p class="text-center text-xs font-bold text-gray-400">Back to <span id="show-login" class="text-orange-600 cursor-pointer">Login</span></p>
         </div>
     </div>
 
-    <!-- Main Application Container -->
+    <!-- App Main -->
     <div id="app-container" class="main-page">
         <header class="p-4 bg-white border-b sticky top-0 z-[100] flex justify-between items-center">
-            <div class="flex items-center gap-2"><div class="p-2 bg-orange-100 rounded-lg text-orange-600"><i data-lucide="zap" class="w-5 h-5 fill-orange-600"></i></div><h2 class="font-black text-xl tracking-tighter">CASHREWARD</h2></div>
+            <div class="flex items-center gap-2"><div class="p-2 bg-orange-100 rounded-lg text-orange-600"><i data-lucide="zap" class="w-5 h-5 fill-orange-600"></i></div><h2 class="font-black text-lg">CASHREWARD</h2></div>
             <div id="bell-btn" class="relative cursor-pointer bg-gray-50 p-2.5 rounded-full">
                 <i data-lucide="bell" class="w-5 h-5 text-gray-600"></i>
-                <span id="notif-dot" class="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white hidden"></span>
+                <span id="notif-dot" class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border border-white hidden"></span>
             </div>
         </header>
 
-        <main class="flex-grow pb-28">
-            <!-- Home Page -->
-            <div id="home-page" class="p-5 space-y-6 sub-page">
-                <div class="btn-accent p-8 rounded-[2.5rem] shadow-xl relative overflow-hidden">
-                    <p class="text-white/70 text-xs font-bold uppercase tracking-widest">Available Balance</p>
-                    <h3 class="text-5xl font-black mt-1 tracking-tighter"><span id="coin-balance">0</span></h3>
-                    <div class="mt-4 inline-block bg-white/20 px-4 py-1.5 rounded-full text-[10px] font-black uppercase backdrop-blur-md text-white">
-                        Premium Member
-                    </div>
-                    <i data-lucide="wallet" class="w-28 h-28 text-white/10 absolute -right-4 -bottom-4"></i>
+        <main class="flex-grow pb-24">
+            <!-- Home -->
+            <div id="home-page" class="p-5 space-y-5 sub-page active">
+                <div class="btn-accent p-8 rounded-[2rem] shadow-xl relative overflow-hidden">
+                    <p class="text-white/80 text-[10px] font-black uppercase">My Balance</p>
+                    <h3 class="text-5xl font-black mt-1"><span id="coin-balance">0</span></h3>
+                    <div class="mt-4 inline-block bg-white/20 px-3 py-1 rounded-full text-[9px] font-black uppercase">Standard User</div>
+                    <i data-lucide="wallet" class="w-24 h-24 text-white/10 absolute -right-2 -bottom-2"></i>
                 </div>
                 
                 <div class="card-bg p-5 flex items-center justify-between cursor-pointer border-orange-50" onclick="claimReward('ad')">
                     <div class="flex items-center gap-4">
-                        <div class="bg-orange-100 p-4 rounded-2xl text-orange-600 shadow-sm"><i data-lucide="play-circle" class="w-6 h-6"></i></div>
-                        <div><p class="font-black text-gray-800 text-sm">WATCH VIDEO AD</p><p class="text-[10px] font-bold text-orange-600 uppercase">+50 Bonus Coins</p></div>
+                        <div class="bg-orange-100 p-4 rounded-2xl text-orange-600"><i data-lucide="play-circle" class="w-6 h-6"></i></div>
+                        <div><p class="font-black text-sm">WATCH VIDEO AD</p><p class="text-[10px] font-bold text-orange-600">+50 Coins</p></div>
                     </div>
                     <i data-lucide="chevron-right" class="text-gray-300 w-5 h-5"></i>
                 </div>
             </div>
 
-            <!-- Task Page (Join & Verify Logic) -->
-            <div id="tasks-page" class="p-5 sub-page space-y-5">
-                <h2 class="text-2xl font-black tracking-tighter uppercase">Earning Tasks</h2>
-                <div id="dynamic-tasks-list" class="space-y-4">
-                    <!-- Loaded dynamically from Firebase -->
+            <!-- Task Page -->
+            <div id="tasks-page" class="p-5 sub-page space-y-4">
+                <h2 class="text-xl font-black uppercase tracking-tighter">Earning Tasks</h2>
+                <div id="dynamic-tasks-list" class="space-y-3">
+                    <!-- Tasks load here -->
                 </div>
-            </div>
-
-            <!-- Notifications -->
-            <div id="notif-page" class="p-5 sub-page space-y-4">
-                <h2 class="text-2xl font-black tracking-tighter uppercase">Notifications</h2>
-                <div id="notif-list" class="space-y-3"></div>
             </div>
 
             <!-- Wallet -->
             <div id="wallet-page" class="p-5 sub-page">
-                <div class="card-bg p-7 border-2 border-orange-50 shadow-xl space-y-6">
-                    <h3 class="font-black text-xl tracking-tight uppercase">Cashout Money</h3>
-                    <div class="text-center bg-gray-50 py-4 rounded-2xl">
-                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Your Wallet</p>
-                        <p class="text-3xl font-black text-orange-600"><span id="wallet-coin-balance">0</span> <small id="currency-name" class="text-sm">Coins</small></p>
+                <div class="card-bg p-6 space-y-5">
+                    <h3 class="font-black text-lg uppercase">Withdraw</h3>
+                    <div class="text-center bg-gray-50 py-4 rounded-xl">
+                        <p class="text-2xl font-black text-orange-600"><span id="wallet-coin-balance">0</span> <span id="currency-name" class="text-sm">Coins</span></p>
                     </div>
-                    <div class="space-y-4">
-                        <input id="withdraw-amount" type="number" placeholder="Coins Amount" class="w-full p-4 bg-white border rounded-2xl outline-none focus:border-orange-500 font-bold">
-                        <select id="withdraw-method" class="w-full p-4 bg-white border rounded-2xl outline-none font-bold"></select>
-                        <div id="payment-input-container"></div>
-                        <button id="withdraw-btn" class="w-full p-4 btn-accent shadow-xl shadow-orange-100 uppercase font-black text-xs tracking-widest">Submit Withdrawal</button>
-                    </div>
+                    <input id="withdraw-amount" type="number" placeholder="Enter Amount" class="w-full p-4 border rounded-xl outline-none font-bold">
+                    <select id="withdraw-method" class="w-full p-4 border rounded-xl outline-none font-bold"></select>
+                    <button id="withdraw-btn" class="w-full p-4 btn-accent uppercase font-black text-xs">Submit Request</button>
                 </div>
-                <div id="history-list" class="mt-10 space-y-3"></div>
             </div>
 
             <!-- Refer -->
-            <div id="refer-page" class="p-5 sub-page space-y-8">
-                <div class="card-bg p-8 text-center space-y-4 border-orange-50 shadow-lg">
-                    <div class="bg-orange-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto text-orange-600"><i data-lucide="users" class="w-10 h-10"></i></div>
-                    <h2 class="text-2xl font-black tracking-tighter">REFER & EARN</h2>
-                    <p class="text-xs font-bold text-gray-400 px-6 uppercase tracking-tight">Share this code with your friends and earn <span id="ref-bonus-val" class="text-orange-600">...</span> coins!</p>
-                    <div class="bg-white border-2 border-dashed border-orange-200 p-5 rounded-2xl flex items-center justify-center gap-5">
-                        <span id="my-refer-code" class="text-3xl font-black tracking-widest text-orange-600">...</span>
-                        <button id="copy-ref-btn" class="p-2 bg-orange-50 rounded-xl text-orange-600 active:scale-90 transition-all"><i data-lucide="copy" class="w-6 h-6"></i></button>
+            <div id="refer-page" class="p-5 sub-page text-center">
+                <div class="card-bg p-8 space-y-4">
+                    <h2 class="text-xl font-black">INVITE FRIENDS</h2>
+                    <p class="text-[10px] text-gray-400 font-bold uppercase">Reward: <span id="ref-bonus-val">100</span> Coins</p>
+                    <div class="bg-white border-2 border-dashed border-orange-200 p-4 rounded-xl flex items-center justify-center gap-4">
+                        <span id="my-refer-code" class="text-2xl font-black tracking-widest text-orange-600">...</span>
+                        <button id="copy-ref-btn" class="p-2 bg-orange-50 rounded-lg text-orange-600"><i data-lucide="copy" class="w-5 h-5"></i></button>
                     </div>
-                </div>
-                <div id="apply-refer-container" class="card-bg p-6 space-y-4 border-orange-50">
-                    <h3 class="font-bold text-gray-800 text-sm ml-1 uppercase text-xs tracking-widest">Got a friend's code?</h3>
-                    <input id="input-refer-code" type="text" placeholder="ENTER CODE" class="w-full p-4 bg-white border rounded-2xl outline-none uppercase font-black tracking-widest focus:border-orange-500">
-                    <button id="apply-refer-btn" class="w-full p-4 bg-orange-100 text-orange-600 font-black rounded-2xl uppercase tracking-widest text-xs">Claim Referral Bonus</button>
                 </div>
             </div>
 
             <!-- Profile -->
-            <div id="profile-page" class="p-5 sub-page text-center">
-                <div class="card-bg p-10 space-y-6 shadow-2xl border-white relative">
-                    <div class="w-28 h-28 bg-gradient-to-tr from-orange-500 to-orange-300 rounded-[2.2rem] mx-auto p-1.5 shadow-xl">
-                        <div class="w-full h-full bg-white rounded-[1.9rem] flex items-center justify-center text-orange-500"><i data-lucide="user" class="w-12 h-12 fill-orange-500/10"></i></div>
-                    </div>
-                    <div><h2 id="user-name" class="text-2xl font-black tracking-tight uppercase">User</h2><p id="user-email" class="text-xs font-bold text-gray-400 tracking-wide">email@example.com</p></div>
-                    <button id="logout-btn" class="w-full p-4 bg-red-50 text-red-600 font-black rounded-2xl flex items-center justify-center gap-3 active:scale-95 transition-all"><i data-lucide="log-out" class="w-5 h-5"></i> Logout Account</button>
+            <div id="profile-page" class="p-5 sub-page">
+                <div class="card-bg p-8 text-center space-y-4">
+                    <div class="w-20 h-20 bg-orange-100 rounded-3xl mx-auto flex items-center justify-center text-orange-600"><i data-lucide="user" class="w-10 h-10"></i></div>
+                    <div><h2 id="user-name" class="font-black text-xl uppercase">...</h2><p id="user-email" class="text-xs text-gray-400">...</p></div>
+                    <button id="logout-btn" class="w-full p-4 bg-red-50 text-red-600 font-black rounded-xl">Logout</button>
                 </div>
             </div>
         </main>
 
-        <!-- Dynamic Navigation Bar -->
-        <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white/90 backdrop-blur-lg border-t p-3.5 flex justify-between items-center z-[500] shadow-[0_-5px_20px_rgba(0,0,0,0.05)]">
-            <a href="#" class="nav-link flex flex-col items-center flex-1 active" data-page="home-page"><i data-lucide="home" class="w-6 h-6"></i><span class="text-[9px] font-black mt-1 uppercase">Home</span></a>
-            <a href="#" class="nav-link flex flex-col items-center flex-1" data-page="wallet-page"><i data-lucide="wallet" class="w-6 h-6"></i><span class="text-[9px] font-black mt-1 uppercase">Wallet</span></a>
-            
-            <!-- Middle Blue/Task Button -->
-            <a href="#" class="task-btn-center nav-link" data-page="tasks-page"><i data-lucide="layout-grid" class="w-7 h-7"></i></a>
-
-            <a href="#" class="nav-link flex flex-col items-center flex-1" data-page="refer-page"><i data-lucide="users" class="w-6 h-6"></i><span class="text-[9px] font-black mt-1 uppercase">Refer</span></a>
-            <a href="#" class="nav-link flex flex-col items-center flex-1" data-page="profile-page"><i data-lucide="user" class="w-6 h-6"></i><span class="text-[9px] font-black mt-1 uppercase">Profile</span></a>
+        <!-- Navbar -->
+        <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white border-t p-3 flex justify-between items-center z-[500]">
+            <a href="#" class="nav-link flex flex-col items-center flex-1 active" data-page="home-page"><i data-lucide="home" class="w-5 h-5"></i><span class="text-[8px] font-black mt-1">HOME</span></a>
+            <a href="#" class="nav-link flex flex-col items-center flex-1" data-page="wallet-page"><i data-lucide="wallet" class="w-5 h-5"></i><span class="text-[8px] font-black mt-1">WALLET</span></a>
+            <a href="#" class="task-btn-center nav-link" data-page="tasks-page"><i data-lucide="layout-grid" class="w-6 h-6"></i></a>
+            <a href="#" class="nav-link flex flex-col items-center flex-1" data-page="refer-page"><i data-lucide="users" class="w-5 h-5"></i><span class="text-[8px] font-black mt-1">REFER</span></a>
+            <a href="#" class="nav-link flex flex-col items-center flex-1" data-page="profile-page"><i data-lucide="user" class="w-5 h-5"></i><span class="text-[8px] font-black mt-1">PROFILE</span></a>
         </nav>
     </div>
 
-    <!-- Professional Alert -->
-    <div id="alert-box" class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-[9999] p-8">
-        <div class="bg-white p-8 rounded-[2.5rem] w-full max-w-xs text-center shadow-[0_20px_50px_rgba(0,0,0,0.2)] border border-orange-50">
-            <div class="w-16 h-16 bg-orange-50 rounded-full flex items-center justify-center mx-auto mb-5 text-orange-600"><i data-lucide="info" class="w-8 h-8"></i></div>
-            <p id="alert-msg" class="mb-8 font-bold text-gray-700 leading-snug text-sm"></p>
-            <button id="alert-close" class="w-full p-4 btn-accent rounded-2xl shadow-lg shadow-orange-200 uppercase tracking-widest text-[10px]">I Understand</button>
+    <!-- Alert Box -->
+    <div id="alert-box" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9999] p-10">
+        <div class="bg-white p-6 rounded-3xl w-full text-center shadow-2xl">
+            <p id="alert-msg" class="mb-6 font-bold text-gray-700 text-sm"></p>
+            <button id="alert-close" class="w-full p-3 btn-accent rounded-xl text-xs uppercase">OK</button>
         </div>
     </div>
 
     <script type="module">
-        // Firebase Imports
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, updateDoc, collection, addDoc, serverTimestamp, query, where, getDocs, onSnapshot, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, getDoc, updateDoc, collection, query, where, getDocs, onSnapshot, serverTimestamp, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // Your Exact Config
         const firebaseConfig = {
           apiKey: "AIzaSyCRHfuGZUrAlUEhpCavGMJ3iIAx6wVNH3I",
           authDomain: "fir-50646.firebaseapp.com",
@@ -210,231 +186,181 @@
           appId: "1:880222799548:web:bf6c3b72200849d882b2b9"
         };
 
-        // Global Variables
-        let currentUser = null, userData = null, adminConfig = {};
-        const joinedTasks = new Set(); 
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
 
-        // Initialize Firebase
-        let app, auth, db;
-        try {
-            app = initializeApp(firebaseConfig);
-            auth = getAuth(app);
-            db = getFirestore(app);
-            console.log("Firebase Connected Successfully!");
-        } catch (e) {
-            console.error("Firebase Connection Error: ", e);
-            alert("Connection Error. Check your internet or Firebase setup.");
-        }
+        let currentUser = null, userData = null;
 
-        // Device ID Generation (Multi-account prevention)
-        const getDeviceId = () => {
-            let id = localStorage.getItem('nabid_secure_token');
-            if(!id) { 
-                id = 'DEV-' + Math.random().toString(36).substring(2, 12).toUpperCase(); 
-                localStorage.setItem('nabid_secure_token', id); 
+        // --- Auth Listener ---
+        onAuthStateChanged(auth, async (user) => {
+            const loader = document.getElementById('loader');
+            if(user) {
+                currentUser = user;
+                onSnapshot(doc(db, "users", user.uid), (snap) => {
+                    if(snap.exists()) {
+                        userData = snap.data();
+                        updateUI();
+                        showMain('app-container');
+                        loader.style.display = 'none';
+                    }
+                });
+                loadTasks();
+                loadConfig();
+            } else {
+                showMain('auth-section');
+                loader.style.display = 'none';
             }
-            return id;
-        };
+        });
 
-        window.onload = () => {
-            if (typeof lucide !== 'undefined') lucide.createIcons();
-            setupEvents();
-            
-            onAuthStateChanged(auth, async (user) => {
-                const loaderEl = document.getElementById('loader');
-                if(user) {
-                    currentUser = user;
-                    // Real-time listener for User Profile (AUTO-REFRESH FIX)
-                    onSnapshot(doc(db, "users", user.uid), (snap) => {
-                        if(snap.exists()){
-                            userData = snap.data();
-                            updateUI();
-                        } else { signOut(auth); }
-                    }, (err) => console.log("Profile Error: ", err));
-
-                    await fetchAdminConfig();
-                    loadDynamicTasks();
-                    loadNotifications();
-                    showMain('app-container');
-                    loaderEl.style.display = 'none';
-                } else {
-                    showMain('auth-section');
-                    loaderEl.style.display = 'none';
-                }
-            });
-        };
-
-        // Fetch Global Settings
-        async function fetchAdminConfig() {
-            onSnapshot(doc(db, "config", "main"), (snap) => {
-                adminConfig = snap.exists() ? snap.data() : { referBonus: 100, currency: "Coins" };
-                document.getElementById('currency-name').innerText = adminConfig.currency;
-                document.getElementById('ref-bonus-val').innerText = adminConfig.referBonus;
-            });
-        }
-
-        // --- Task Page Realtime Loader ---
-        function loadDynamicTasks() {
-            onSnapshot(collection(db, "tasks"), (snapshot) => {
-                const list = document.getElementById('dynamic-tasks-list');
-                list.innerHTML = '';
-                if(snapshot.empty) list.innerHTML = '<p class="text-center text-gray-400 mt-10 uppercase text-[10px] font-black tracking-widest">No Active Tasks</p>';
-                
-                snapshot.forEach(docSnap => {
-                    const t = docSnap.data();
-                    const taskId = docSnap.id;
-                    const isDone = userData.completedTasks?.includes(taskId);
-
-                    list.innerHTML += `
-                        <div class="card-bg p-5 flex items-center justify-between border-2 border-transparent ${isDone ? 'opacity-40 grayscale pointer-events-none' : 'hover:border-orange-50'} transition-all">
-                            <div class="flex items-center gap-4">
-                                <div class="bg-indigo-50 p-3.5 rounded-2xl text-indigo-600"><i data-lucide="send"></i></div>
-                                <div><p class="font-black text-gray-800 uppercase text-xs">${t.title}</p><p class="text-[10px] font-black text-indigo-600 mt-0.5 tracking-widest">+${t.reward} ${adminConfig.currency || "Coins"}</p></div>
-                            </div>
-                            <div class="flex flex-col gap-2">
-                                <button onclick="handleJoinClick('${taskId}', '${t.link}')" class="join-btn ${isDone ? 'hidden' : ''}">JOIN</button>
-                                <button id="v-${taskId}" onclick="handleVerifyClick('${taskId}', ${t.reward})" class="verify-btn shadow-lg shadow-indigo-100" ${isDone ? 'disabled' : ''}>
-                                    ${isDone ? 'DONE' : 'VERIFY'}
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                });
-                lucide.createIcons();
-            });
-        }
-
-        // Join Button Tracking
-        window.handleJoinClick = (taskId, link) => {
-            joinedTasks.add(taskId);
-            window.open(link, '_blank');
-        };
-
-        // Verify Logic with 3s Delay
-        window.handleVerifyClick = async (id, reward) => {
-            if(!joinedTasks.has(id)) {
-                return showAlert("Verification Failed! You must click the JOIN button and follow the channel first.");
-            }
-
-            const btn = document.getElementById('v-'+id);
-            btn.disabled = true; btn.innerHTML = '<span class="loader-ring"></span>';
-            
-            setTimeout(async () => {
-                const tasks = userData.completedTasks || [];
-                if(!tasks.includes(id)) {
-                    tasks.push(id);
-                    const newBal = (userData.balance || 0) + reward;
-                    await updateDoc(doc(db, "users", currentUser.uid), { balance: newBal, completedTasks: tasks });
-                    showAlert(`TASK SUCCESSFUL: +${reward} ${adminConfig.currency} added!`);
-                }
-            }, 3000);
-        };
-
-        // Multi-Account Signup Logic
-        async function handleSignup() {
-            const name = document.getElementById('signup-name').value;
-            const email = document.getElementById('signup-email').value;
-            const pass = document.getElementById('signup-password').value;
-            const devId = getDeviceId();
-            const loaderEl = document.getElementById('loader');
-
-            if(!name || !email || !pass) return showAlert("Please fill all information!");
-            loaderEl.style.display = 'flex';
-            
-            try {
-                // Device Check
-                const q = query(collection(db, "users"), where("deviceId", "==", devId));
-                const devSnap = await getDocs(q);
-                if(!devSnap.empty) { 
-                    loaderEl.style.display = 'none'; 
-                    document.getElementById('block-screen').style.display = 'flex'; 
-                    return; 
-                }
-
-                const cred = await createUserWithEmailAndPassword(auth, email, pass);
-                await setDoc(doc(db, "users", cred.user.uid), {
-                    uid: cred.user.uid, name, email, balance: 50, deviceId: devId,
-                    referralCode: Math.random().toString(36).substring(2, 8).toUpperCase(),
-                    completedTasks: [], createdAt: serverTimestamp()
-                });
-                console.log("Signup Done!");
-            } catch(e) { showAlert(e.message); }
-            finally { loaderEl.style.display = 'none'; }
-        }
-
-        // Global Notifications
-        function loadNotifications() {
-            onSnapshot(query(collection(db, "notifs"), orderBy("createdAt", "desc")), (snap) => {
-                const list = document.getElementById('notif-list'); list.innerHTML = '';
-                if(!snap.empty) document.getElementById('notif-dot').classList.remove('hidden');
-                snap.forEach(d => {
-                    const n = d.data();
-                    list.innerHTML += `<div class="card-bg p-5"><h4 class="font-black text-xs uppercase tracking-widest">${n.title}</h4><p class="text-[11px] font-medium text-gray-500 mt-2 leading-relaxed">${n.msg}</p></div>`;
-                });
-            });
-        }
-
-        // UI Handlers
+        // --- Functions ---
         function updateUI() {
-            if (!userData) return;
-            document.getElementById('coin-balance').innerText = userData.balance;
-            document.getElementById('wallet-coin-balance').innerText = userData.balance;
+            document.getElementById('coin-balance').innerText = userData.balance || 0;
+            document.getElementById('wallet-coin-balance').innerText = userData.balance || 0;
             document.getElementById('user-name').innerText = userData.name;
             document.getElementById('user-email').innerText = userData.email;
             document.getElementById('my-refer-code').innerText = userData.referralCode;
         }
 
-        function showMain(id) { 
-            document.querySelectorAll('.main-page').forEach(p => p.classList.remove('active')); 
-            document.getElementById(id).classList.add('active'); 
+        async function loadConfig() {
+            onSnapshot(doc(db, "config", "main"), (snap) => {
+                if(snap.exists()) {
+                    const c = snap.data();
+                    document.getElementById('ref-bonus-val').innerText = c.referBonus || 100;
+                    document.getElementById('currency-name').innerText = c.currency || "Coins";
+                }
+            });
+        }
+
+        function loadTasks() {
+            onSnapshot(collection(db, "tasks"), (snap) => {
+                const list = document.getElementById('dynamic-tasks-list');
+                list.innerHTML = '';
+                snap.forEach(d => {
+                    const t = d.data();
+                    const isDone = userData.completedTasks?.includes(d.id);
+                    list.innerHTML += `
+                        <div class="card-bg p-4 flex items-center justify-between ${isDone ? 'opacity-50 grayscale pointer-events-none' : ''}">
+                            <div class="flex items-center gap-3">
+                                <div class="bg-indigo-50 p-3 rounded-xl text-indigo-600"><i data-lucide="send" class="w-4 h-4"></i></div>
+                                <div><p class="font-black text-[11px] uppercase">${t.title}</p><p class="text-[10px] text-indigo-600 font-bold">+${t.reward} Coins</p></div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="handleJoin('${d.id}', '${t.link}')" class="join-btn">JOIN</button>
+                                <button id="v-${d.id}" onclick="handleVerify('${d.id}', ${t.reward})" class="verify-btn">${isDone ? 'DONE' : 'VERIFY'}</button>
+                            </div>
+                        </div>`;
+                });
+                lucide.createIcons();
+            });
+        }
+
+        // --- Task Logic (Strict) ---
+        window.handleJoin = (id, link) => {
+            localStorage.setItem('clicked_join_' + id, 'true'); // টাস্ক ক্লিক সেভ করা হলো
+            window.open(link, '_blank');
+        };
+
+        window.handleVerify = async (id, reward) => {
+            const hasJoined = localStorage.getItem('clicked_join_' + id);
+            
+            if(!hasJoined) {
+                showAlert("❌ Verification Failed! You must click JOIN first and follow our channel.");
+                return;
+            }
+
+            const btn = document.getElementById('v-'+id);
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loader-ring"></span>';
+
+            // ৩ সেকেন্ড পর ভেরিফাই হবে (যাতে ইউজার মনে করে চেক হচ্ছে)
+            setTimeout(async () => {
+                const tasks = userData.completedTasks || [];
+                if(!tasks.includes(id)) {
+                    tasks.push(id);
+                    await updateDoc(doc(db, "users", currentUser.uid), {
+                        balance: (userData.balance || 0) + reward,
+                        completedTasks: tasks
+                    });
+                    localStorage.removeItem('clicked_join_' + id); // ক্লিনআপ
+                    showAlert(`✅ SUCCESS: +${reward} Coins added!`);
+                }
+            }, 3000);
+        };
+
+        // --- Signup with Multi-Account Check ---
+        async function handleSignup() {
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const pass = document.getElementById('signup-password').value;
+            const devId = localStorage.getItem('device_id') || 'D-' + Math.random().toString(36).substring(7);
+            localStorage.setItem('device_id', devId);
+
+            if(!name || !email || !pass) return showAlert("Fill all fields");
+            
+            document.getElementById('loader').style.display = 'flex';
+            try {
+                const q = query(collection(db, "users"), where("deviceId", "==", devId));
+                const snap = await getDocs(q);
+                if(!snap.empty) {
+                    document.getElementById('block-screen').style.display = 'flex';
+                    return;
+                }
+
+                const res = await createUserWithEmailAndPassword(auth, email, pass);
+                await setDoc(doc(db, "users", res.user.uid), {
+                    uid: res.user.uid, name, email, balance: 50, deviceId: devId,
+                    referralCode: Math.random().toString(36).substring(7).toUpperCase(),
+                    completedTasks: [], createdAt: serverTimestamp()
+                });
+            } catch(e) { showAlert(e.message); }
+            finally { document.getElementById('loader').style.display = 'none'; }
+        }
+
+        // --- Helper UIs ---
+        function showMain(id) {
+            document.querySelectorAll('.main-page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
         }
 
         function navigate(id) {
             document.querySelectorAll('.sub-page').forEach(p => p.classList.remove('active'));
             document.getElementById(id).classList.add('active');
-            document.querySelectorAll('.nav-link').forEach(l => {
-                l.classList.remove('active');
-                if(l.dataset.page === id) l.classList.add('active');
+            document.querySelectorAll('.nav-link').forEach(n => {
+                n.classList.remove('active');
+                if(n.dataset.page === id) n.classList.add('active');
             });
-            if(id === 'notif-page') document.getElementById('notif-dot').classList.add('hidden');
         }
 
-        function setupEvents() {
-            document.getElementById('signup-btn').onclick = handleSignup;
-            document.getElementById('login-btn').onclick = async () => {
-                const e = document.getElementById('login-email').value;
-                const p = document.getElementById('login-password').value;
-                document.getElementById('loader').style.display = 'flex';
-                try { await signInWithEmailAndPassword(auth, e, p); } catch(e){ showAlert(e.message); }
-                finally { document.getElementById('loader').style.display = 'none'; }
-            };
-            document.getElementById('show-signup').onclick = () => { document.getElementById('login-view').classList.add('hidden'); document.getElementById('signup-view').classList.remove('hidden'); };
-            document.getElementById('show-login').onclick = () => { document.getElementById('signup-view').classList.add('hidden'); document.getElementById('login-view').classList.remove('hidden'); };
-            document.querySelectorAll('.nav-link').forEach(l => l.onclick = (e) => { e.preventDefault(); navigate(l.dataset.page); });
-            document.getElementById('logout-btn').onclick = () => signOut(auth);
-            document.getElementById('copy-ref-btn').onclick = () => { navigator.clipboard.writeText(userData.referralCode); showAlert("Refer Code Copied!"); };
-            document.getElementById('alert-close').onclick = () => document.getElementById('alert-box').classList.add('hidden');
-            document.getElementById('bell-btn').onclick = () => navigate('notif-page');
+        function showAlert(msg) {
+            document.getElementById('alert-msg').innerText = msg;
+            document.getElementById('alert-box').classList.remove('hidden');
         }
 
-        function showAlert(msg) { 
-            document.getElementById('alert-msg').innerText = msg; 
-            document.getElementById('alert-box').classList.remove('hidden'); 
-        }
-
-        // Instant Ad Reward
-        window.claimReward = async (type) => {
+        window.claimReward = async () => {
             if(typeof window.show_9924924 === 'function') {
-                document.getElementById('loader').style.display = 'flex';
                 try {
                     await window.show_9924924();
-                    const newBal = (userData.balance || 0) + 50;
-                    await updateDoc(doc(db, "users", currentUser.uid), { balance: newBal });
-                    showAlert("CONGRATS: +50 Coins Added!");
-                } catch(e) { console.log(e); }
-                finally { document.getElementById('loader').style.display = 'none'; }
+                    await updateDoc(doc(db, "users", currentUser.uid), { balance: (userData.balance || 0) + 50 });
+                    showAlert("Video Bonus: +50 Coins!");
+                } catch(e) {}
             }
         };
+
+        // --- Events ---
+        document.getElementById('login-btn').onclick = () => {
+            const e = document.getElementById('login-email').value;
+            const p = document.getElementById('login-password').value;
+            signInWithEmailAndPassword(auth, e, p).catch(err => showAlert(err.message));
+        };
+        document.getElementById('signup-btn').onclick = handleSignup;
+        document.getElementById('show-signup').onclick = () => { document.getElementById('login-view').classList.add('hidden'); document.getElementById('signup-view').classList.remove('hidden'); };
+        document.getElementById('show-login').onclick = () => { document.getElementById('signup-view').classList.add('hidden'); document.getElementById('login-view').classList.remove('hidden'); };
+        document.getElementById('alert-close').onclick = () => document.getElementById('alert-box').classList.add('hidden');
+        document.getElementById('logout-btn').onclick = () => signOut(auth);
+        document.querySelectorAll('.nav-link').forEach(l => l.onclick = (e) => { navigate(l.dataset.page); });
+        
+        lucide.createIcons();
     </script>
 </body>
 </html>
