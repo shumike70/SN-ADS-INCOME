@@ -1,103 +1,97 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Safe Device Verification</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        body {
-            background-color: #1a202c;
-            color: white;
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .container {
-            background-color: #2d3748;
-            padding: 30px;
-            border-radius: 15px;
-            text-align: center;
-            width: 300px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-        .icon {
-            font-size: 50px;
-            margin-bottom: 20px;
-        }
-        .status-verified { color: #48bb78; }
-        .status-failed { color: #f56565; }
-        .status-pending { color: #ecc94b; }
-        
-        button {
-            background-color: #4299e1;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-            margin-top: 20px;
-            width: 100%;
-            font-weight: bold;
-        }
+        body { background-color: #0e1621; color: white; text-align: center; font-family: sans-serif; padding-top: 50px; }
+        .modal { background: #1c2431; width: 90%; max-width: 350px; margin: auto; padding: 40px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        .icon { width: 80px; height: 80px; background: #4caf50; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: auto; font-size: 40px; }
+        h2 { margin: 20px 0 10px; color: #4caf50; }
+        p { color: #8e96a1; font-size: 14px; margin-bottom: 30px; }
+        .btn { background: #3897f0; border: none; padding: 12px 30px; border-radius: 25px; color: white; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div id="icon" class="icon">🔍</div>
-    <h2 id="title">Device Verification</h2>
-    <p id="message">Checking status...</p>
-    <button onclick="continueToBot()">Continue to Bot</button>
+<div class="modal">
+    <div class="icon">✓</div>
+    <h2>Success</h2>
+    <p>Device verification successful!</p>
+    <button class="btn" onclick="sendToBot()">Continue to Bot</button>
 </div>
 
 <script>
-    // Telegram WebApp API ইনিশিয়ালাইজ করা
     const tg = window.Telegram.WebApp;
-    tg.expand(); // ফুল স্ক্রিন করার জন্য
+    tg.expand();
 
-    const userId = tg.initDataUnsafe.user ? tg.initDataUnsafe.user.id : null;
-    const iconEl = document.getElementById('icon');
-    const titleEl = document.getElementById('title');
-    const messageEl = document.getElementById('message');
+    function sendToBot() {
+        const user = tg.initDataUnsafe.user;
+        if (!user) return alert("User not found!");
 
-    // ভেরিফিকেশন লজিক
-    function checkVerification() {
-        if (!userId) {
-            showStatus("failed", "❌", "Verification Failed", "Could not get Telegram ID.");
-            return;
-        }
+        // আপনার Webhook URL এখানে দিন (Google Apps Script-এর URL)
+        const webAppUrl = "আপনার_WEBHOOK_URL_এখানে_দিন";
 
-        // এখানে আপনি আপনার ডাটাবেস (যেমন Firebase বা MongoDB) থেকে চেক করবেন
-        // নিচে একটি ডেমো লজিক দেওয়া হলো:
-        const isAlreadyVerified = localStorage.getItem('verified_user_' + userId);
-
-        if (isAlreadyVerified) {
-            showStatus("verified", "✅", "Already Verified", "This account is already verified.");
-        } else {
-            // নতুন ইউজার হলে এখানে সাকসেস দেখাবে এবং ডাটা সেভ করবে
-            localStorage.setItem('verified_user_' + userId, 'true');
-            showStatus("verified", "✔️", "Success", "Device verification successful!");
-        }
+        // বটের Webhook-এ ডাটা পাঠানো
+        fetch(webAppUrl, {
+            method: 'POST',
+            body: JSON.stringify({
+                action: "verify_success",
+                user_id: user.id,
+                user_name: user.first_name
+            })
+        })
+        .then(() => {
+            tg.close(); // ডাটা পাঠানোর পর অ্যাপ বন্ধ হয়ে যাবে
+        })
+        .catch(err => {
+            console.error(err);
+            tg.close();
+        });
     }
-
-    function showStatus(type, icon, title, msg) {
-        iconEl.innerHTML = icon;
-        titleEl.innerText = title;
-        messageEl.innerText = msg;
-        messageEl.className = 'status-' + type;
-    }
-
-    function continueToBot() {
-        tg.close(); // ভেরিফিকেশন শেষে বট উইন্ডো বন্ধ করে মূল বটে নিয়ে যাবে
-    }
-
-    // পেজ লোড হলে চেক শুরু হবে
-    window.onload = checkVerification;
 </script>
-
 </body>
 </html>
+```
+
+---
+
+### ধাপ ২: বটের কোড (Google Apps Script / onWebhook)
+আপনার বটের মূল স্ক্রিপ্টে (যেখানে `onWebhook` বা `doPost` আছে) নিচের কোডটুকু যোগ করুন যাতে সে বুঝতে পারে ভেরিফিকেশন শেষ হয়েছে।
+
+```javascript
+function doPost(e) {
+  var data = JSON.parse(e.postData.contents);
+  
+  // যদি Web App থেকে "verify_success" মেসেজ আসে
+  if (data.action === "verify_success") {
+    var userId = data.user_id;
+    var name = data.user_name;
+    
+    // ইউজারকে মেসেজ পাঠানো যে সে এখন ভেরিফাইড
+    var message = "অভিনন্দন " + name + "! আপনার ডিভাইস ভেরিফিকেশন সফল হয়েছে। এখন আপনি বট ব্যবহার করতে পারবেন।";
+    
+    // Telegram API ব্যবহার করে মেসেজ পাঠান
+    sendMessage(userId, message);
+    return;
+  }
+  
+  // আপনার বটের বাকি কাজ এখানে থাকবে...
+}
+
+// মেসেজ পাঠানোর ফাংশন (যদি আগে থেকে না থাকে)
+function sendMessage(chatId, text) {
+  var token = "আপনার_বট_টোকেন";
+  var url = "https://api.telegram.org/bot" + token + "/sendMessage";
+  var payload = {
+    "chat_id": chatId,
+    "text": text,
+    "parse_mode": "HTML"
+  };
+  UrlFetchApp.fetch(url, {
+    "method": "post",
+    "contentType": "application/json",
+    "payload": JSON.stringify(payload)
+  });
+}
